@@ -29,20 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             BasicLearningTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    val authViewModel: AuthViewModel = hiltViewModel()
-                    val isLoggedIn = authViewModel.isLoggedIn.collectAsState()
                     val navController = rememberNavController()
-//                    LaunchedEffect(isLoggedIn.value) {
-//                        if (isLoggedIn.value) {
-//                            navController.navigate(Screen.CoinListScreen.route) {
-//                                popUpTo(Screen.Login.route) { inclusive = true }
-//                            }
-//                        } else {
-//                            navController.navigate(Screen.Login.route) {
-//                                popUpTo(Screen.CoinListScreen.route) { inclusive = true }
-//                            }
-//                        }
-//                    }
                     NavHost(
                         navController = navController,
                         startDestination = Screen.Splash.route

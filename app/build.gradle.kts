@@ -114,4 +114,5 @@ dependencies {
 
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1") // ✅ Required
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("com.google.firebase:firebase-messaging:24.1.1")
 }
