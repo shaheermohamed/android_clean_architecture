@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "503591108002",
+    "project_id": "clean-architecture-learn-82627",
+    "storage_bucket": "clean-architecture-learn-82627.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503591108002:android:e125cd4544d22af4c746fb",
+        "android_client_info": {
+          "package_name": "com.shahe.basiclearning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhKp7UO8naLq7TSW2laJK8-Ya3eNdRBSk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
