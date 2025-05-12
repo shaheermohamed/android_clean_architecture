@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = Screen.CoinDetailScreen.route + "/{coinId}"
                         ) {
-                            CoinDetailScreen()
+                            CoinDetailScreen(navController)
                         }
                         composable(
                             route = Screen.NewsListScreen.route
@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                         composable(
                             route = Screen.WeatherScreen.route
                         ) {
-                            WeatherScreen()
+                            WeatherScreen(navController)
                         }
                         composable(
                             route = Screen.Login.route

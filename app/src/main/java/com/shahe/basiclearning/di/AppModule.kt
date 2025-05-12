@@ -1,13 +1,16 @@
 package com.shahe.basiclearning.di
 
 import com.shahe.basiclearning.common.Constants
+import com.shahe.basiclearning.data.remote.dto.AdviceApi
 import com.shahe.basiclearning.data.remote.dto.CoinPaprikaApi
 import com.shahe.basiclearning.data.remote.dto.GNewsApi
 import com.shahe.basiclearning.data.remote.dto.WeatherApiService
+import com.shahe.basiclearning.data.repository.AdviceRepositoryImpl
 import com.shahe.basiclearning.data.repository.CoinRepositoryImpl
 import com.shahe.basiclearning.data.repository.FirebaseAuthRepositoryImpl
 import com.shahe.basiclearning.data.repository.NewsRepositoryImpl
 import com.shahe.basiclearning.data.repository.WeatherRepositoryImpl
+import com.shahe.basiclearning.domain.repository.AdviceRepository
 import com.shahe.basiclearning.domain.repository.CoinRepository
 import com.shahe.basiclearning.domain.repository.NewsRepository
 import com.shahe.basiclearning.domain.repository.WeatherRepository
@@ -72,4 +75,20 @@ object AppModule {
 
     @Provides
     fun provideAuthUseCases(): AuthUseCases = FirebaseAuthRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideAdviceApi(): AdviceApi {
+        return Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL_ADVICE)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AdviceApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providerAdviceRepository(api: AdviceApi): AdviceRepository{
+        return AdviceRepositoryImpl(api)
+    }
 }

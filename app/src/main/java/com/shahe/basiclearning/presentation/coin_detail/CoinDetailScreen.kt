@@ -25,19 +25,28 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.flowlayout.FlowRow
 import com.shahe.basiclearning.presentation.coin_detail.components.CoinTag
 import com.shahe.basiclearning.presentation.coin_detail.components.TeamListItem
+import com.shahe.basiclearning.presentation.components.BottomNavigationBar
+import com.shahe.basiclearning.presentation.components.TopAppBar
 
 @Composable
 fun CoinDetailScreen(
+    navController: NavController,
     viewModel: CoinDetailViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-    Scaffold { padding ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)) {
+    Scaffold(
+        topBar = { TopAppBar(navController) },
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
             state.coin?.let { coin ->
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),

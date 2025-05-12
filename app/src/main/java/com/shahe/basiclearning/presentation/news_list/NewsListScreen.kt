@@ -29,6 +29,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.shahe.basiclearning.domain.model.Article
+import com.shahe.basiclearning.presentation.components.BottomNavigationBar
+import com.shahe.basiclearning.presentation.components.TopAppBar
 
 @Composable
 fun NewsListScreen(
@@ -42,7 +44,12 @@ fun NewsListScreen(
     )
     val selectedCategory = viewModel.selectedCategory.value
 
-    Scaffold { padding ->
+    Scaffold(
+        topBar = {
+            TopAppBar(navController)
+        },
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { padding ->
 
         Box(
             modifier = Modifier

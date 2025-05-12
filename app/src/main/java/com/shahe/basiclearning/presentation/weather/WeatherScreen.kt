@@ -4,8 +4,12 @@ import android.Manifest
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +25,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.primarySurface
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -32,14 +37,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.shahe.basiclearning.common.LocationHelper
+import com.shahe.basiclearning.presentation.components.BottomNavigationBar
+import com.shahe.basiclearning.presentation.components.TopAppBar
 
 @Composable
-fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
+fun WeatherScreen(
+    navController: NavController,
+    viewModel: WeatherViewModel = hiltViewModel()
+) {
     val state = viewModel.state
     var selectedCity by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -71,7 +83,10 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
     LaunchedEffect(Unit) {
         permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
-    Scaffold { padding ->
+    Scaffold(
+        topBar = { TopAppBar(navController) },
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { padding ->
         Column(
             Modifier
                 .fillMaxSize()
@@ -79,19 +94,26 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            CitySelector(cityList = cities, { city ->
-                selectedCity = city
-            }, selectedText, { selectedText = it }, viewModel)
-            Button(onClick = {
-                if (selectedCity.isNotEmpty()) {
-                    viewModel.fetchWeather(selectedCity)
-                    selectedText = ""
-                } else {
-                    Toast.makeText(context, "Enter Any City", Toast.LENGTH_SHORT).show()
-                }
-            }) {
-                Text("Get Weather")
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(horizontal = 4.dp)
+            ) {
+                CitySelector(cityList = cities, { city ->
+                    selectedCity = city
+                }, selectedText, { selectedText = it }, viewModel)
+//                Button(onClick = {
+//                    if (selectedCity.isNotEmpty()) {
+//                        viewModel.fetchWeather(selectedCity)
+//                        selectedText = ""
+//                    } else {
+//                        Toast.makeText(context, "Enter Any City", Toast.LENGTH_SHORT).show()
+//                    }
+//                }, modifier = Modifier.padding(start = 2.dp)) {
+//                    Text("Get Weather")
+//                }
             }
+
             if (state?.error?.isNotBlank() == true) {
                 Text(
                     text = state.error.toString(),
@@ -104,19 +126,20 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
             }
             if (state?.isLoading == true) CircularProgressIndicator()
             state?.let {
-                if (it.weather?.city?.isNotEmpty() == true) {
+                if (it.weather?.city?.isNotEmpty() == true && state.isLoading == false) {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 16.dp),
+                            .padding(vertical = 16.dp, horizontal = 4.dp),
                         shape = RoundedCornerShape(16.dp),
                         elevation = CardDefaults.cardElevation(8.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colors.secondary)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colors.primarySurface)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
-                                text = "📍 City: ${it.weather?.city}",
-                                style = MaterialTheme.typography.h6
+                                text = "📍 City: ${it.weather.city}",
+                                style = MaterialTheme.typography.h6,
+                                color = Color.White
                             )
 
                             Spacer(modifier = Modifier.height(8.dp))
@@ -128,7 +151,8 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
                                         it.weather?.temperature
                                     )
                                 }°C",
-                                style = MaterialTheme.typography.body1
+                                style = MaterialTheme.typography.body1,
+                                color = Color.White
                             )
 
                             Text(
@@ -138,23 +162,26 @@ fun WeatherScreen(viewModel: WeatherViewModel = hiltViewModel()) {
                                         it.weather?.temperatureFeelsLike
                                     )
                                 }°C",
-                                style = MaterialTheme.typography.body1
+                                style = MaterialTheme.typography.body1,
+                                color = Color.White
                             )
 
                             Text(
                                 text = "🌬️ Wind: ${String.format("%.1f", it.weather?.wind)} m/s",
-                                style = MaterialTheme.typography.body1
+                                style = MaterialTheme.typography.body1,
+                                color = Color.White
                             )
 
                             Text(
                                 text = "☁️ Desc: ${it.weather?.description}",
-                                style = MaterialTheme.typography.body2
+                                style = MaterialTheme.typography.body2,
+                                color = Color.White
                             )
 
                             Text(
                                 text = "🧭 Coordinates: (${it.weather?.coordinates?.lat}, ${it.weather?.coordinates?.lon})",
                                 style = MaterialTheme.typography.caption,
-                                color = MaterialTheme.colors.onSecondary
+                                color = Color.White
                             )
                         }
                     }
@@ -188,7 +215,13 @@ fun CitySelector(
 
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = { expanded = !expanded }
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier
+            .border(
+                border = BorderStroke(2.dp, color = Color.DarkGray),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .background(color = Color.White)
     ) {
         TextField(
             value = selectedText,
@@ -203,7 +236,8 @@ fun CitySelector(
 
         ExposedDropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.fillMaxWidth()
         ) {
             filteredOptions.forEach { city ->
                 DropdownMenuItem(
