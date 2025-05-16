@@ -5,15 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.shahe.basiclearning.common.DataStoreManager
 import com.shahe.basiclearning.presentation.Authentication.AuthScreen
-import com.shahe.basiclearning.presentation.Authentication.AuthViewModel
+import com.shahe.basiclearning.presentation.Authentication.BiometricLoginScreen
+import com.shahe.basiclearning.presentation.Authentication.RegisterScreen
 import com.shahe.basiclearning.presentation.coin_detail.CoinDetailScreen
 import com.shahe.basiclearning.presentation.coin_list.CoinListScreen
 import com.shahe.basiclearning.presentation.news_list.NewsListScreen
@@ -24,8 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private lateinit var dataStoreManager: DataStoreManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dataStoreManager = DataStoreManager(applicationContext)
         setContent {
             BasicLearningTheme {
                 Surface(color = MaterialTheme.colors.background) {
@@ -61,6 +62,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.Splash.route) {
                             SplashScreen(navController)
+                        }
+                        composable(route = Screen.Register.route) {
+                            RegisterScreen(navController = navController)
+                        }
+                        composable(route = Screen.BioMetric.route) {
+                            BiometricLoginScreen(dataStoreManager = dataStoreManager, auth = FirebaseAuth.getInstance())
                         }
                     }
                 }

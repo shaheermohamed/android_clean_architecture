@@ -3,7 +3,10 @@ package com.shahe.basiclearning.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -25,7 +28,7 @@ fun TopAppBar(
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     val userEmail = FirebaseAuth.getInstance().currentUser?.email
-    TopAppBar {
+    TopAppBar(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,

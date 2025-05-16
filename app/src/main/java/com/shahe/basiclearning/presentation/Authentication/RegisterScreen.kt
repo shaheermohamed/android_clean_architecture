@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
@@ -36,7 +36,7 @@ import com.shahe.basiclearning.domain.model.AuthResult
 import com.shahe.basiclearning.presentation.Screen
 
 @Composable
-fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), navController: NavController) {
+fun RegisterScreen(navController: NavController, viewModel: AuthViewModel = hiltViewModel()) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -44,21 +44,23 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), navController: NavCon
     Scaffold(
         topBar = {
             Row(
-                modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxWidth(),
+                modifier = Modifier
+                    .windowInsetsPadding(WindowInsets.statusBars)
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "Welcome, Please Login")
+                Text(text = "Welcome, Please Register")
             }
         },
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(10.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Login")
+            Text("Register")
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it.trim() },
@@ -71,22 +73,15 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), navController: NavCon
             )
 
             Row {
-                Button(onClick = {
-                    viewModel.login(email, password)
-                }) {
-                    Text("Login")
-                }
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Not registered yet, then!")
-                TextButton(onClick = { navController.navigate(Screen.Register.route) }) {
+                Button(onClick = { viewModel.register(email, password) }) {
                     Text("Register")
                 }
             }
+            Spacer(Modifier.height(5.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Not Biometric yet, then!")
-                TextButton(onClick = { navController.navigate(Screen.BioMetric.route) }) {
-                    Text("Biometric")
+                Text("Already registered user, then!")
+                TextButton(onClick = { navController.navigate(Screen.Login.route) }) {
+                    Text("Login")
                 }
             }
 
@@ -106,13 +101,9 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), navController: NavCon
                     Text("Welcome: ${user.email}")
                     Text("UID: ${user.uid}")
 
-                    // Optionally navigate to home
-                    LaunchedEffect(Unit) {
-                        navController.navigate(Screen.CoinListScreen.route) {
-                            popUpTo(Screen.Login.route) { inclusive = true }
-                        }
-                    }
-                    Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Register Success", Toast.LENGTH_SHORT).show()
+                    LaunchedEffect(Unit) { navController.navigate(Screen.Login.route) }
+
                 }
 
                 null -> {}

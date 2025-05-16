@@ -1,14 +1,16 @@
 package com.shahe.basiclearning.presentation.components
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.shahe.basiclearning.presentation.BottomNavScreen
 
 @Composable
@@ -18,7 +20,7 @@ fun BottomNavigationBar(navController: NavController) {
         BottomNavScreen.News,
         BottomNavScreen.Weather,
     )
-    BottomNavigation {
+    BottomNavigation(modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)) {
         val navBackStackEntry = navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry.value?.destination?.route
 

@@ -115,4 +115,10 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1") // ✅ Required
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("com.google.firebase:firebase-messaging:24.1.1")
+
+    // Biometric
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+// DataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.6")
+
 }
