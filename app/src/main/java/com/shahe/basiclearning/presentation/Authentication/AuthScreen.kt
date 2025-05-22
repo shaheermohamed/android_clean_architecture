@@ -84,12 +84,11 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), navController: NavCon
                 }
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Not Biometric yet, then!")
+                Text("Login with biometric, then!")
                 TextButton(onClick = { navController.navigate(Screen.BioMetric.route) }) {
-                    Text("Biometric")
+                    Text("Fingerprint")
                 }
             }
-
             when (authResult) {
                 is AuthResult.Loading -> androidx.compose.material.CircularProgressIndicator()
                 is AuthResult.Error -> Text(authResult.message, color = Color.Red)

@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import com.shahe.basiclearning.common.DataStoreManager
+import com.shahe.basiclearning.common.EncryptedPrefs
 import com.shahe.basiclearning.domain.model.AuthResult
 import com.shahe.basiclearning.domain.use_case.auth_usecases.AuthUseCases
 import com.shahe.basiclearning.presentation.Screen
@@ -40,6 +42,7 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             authResult = AuthResult.Loading
             authResult = authUseCases.login(email, password)
+            EncryptedPrefs.saveCredentials(email, password)
             checkLoginStatus()
         }
 

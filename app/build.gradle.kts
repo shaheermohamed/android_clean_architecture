@@ -116,9 +116,11 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("com.google.firebase:firebase-messaging:24.1.1")
 
-    // Biometric
-    implementation("androidx.biometric:biometric:1.2.0-alpha05")
-// DataStore
+    // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.6")
+
+    implementation("androidx.biometric:biometric:1.1.0")
+
+    implementation ("androidx.security:security-crypto:1.1.0-alpha07")
 
 }
