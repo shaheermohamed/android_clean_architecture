@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.shahe.basiclearning.common.DataStoreManager
 import com.shahe.basiclearning.common.EncryptedPrefs
+import com.shahe.basiclearning.common.NavigationHost
 import com.shahe.basiclearning.presentation.Authentication.AuthScreen
 import com.shahe.basiclearning.presentation.Authentication.BiometricScreen
 import com.shahe.basiclearning.presentation.Authentication.RegisterScreen
@@ -37,43 +38,7 @@ class MainActivity : FragmentActivity() {
                     BasicLearningTheme {
                         Surface(color = MaterialTheme.colors.background) {
                             val navController = rememberNavController()
-                            NavHost(
-                                navController = navController,
-                                startDestination = Screen.Splash.route
-                            ) {
-                                composable(
-                                    route = Screen.CoinListScreen.route
-                                ) {
-                                    CoinListScreen(navController)
-                                }
-                                composable(
-                                    route = Screen.CoinDetailScreen.route + "/{coinId}"
-                                ) {
-                                    CoinDetailScreen(navController)
-                                }
-                                composable(
-                                    route = Screen.NewsListScreen.route
-                                ) {
-                                    NewsListScreen(navController)
-                                }
-                                composable(
-                                    route = Screen.WeatherScreen.route
-                                ) {
-                                    WeatherScreen(navController)
-                                }
-                                composable(
-                                    route = Screen.Login.route
-                                ) {
-                                    AuthScreen(navController = navController)
-                                }
-                                composable(route = Screen.Splash.route) {
-                                    SplashScreen(navController)
-                                }
-                                composable(route = Screen.Register.route) {
-                                    RegisterScreen(navController = navController)
-                                }
-                                composable(route = Screen.BioMetric.route) { BiometricScreen(navController) }
-                            }
+                            NavigationHost(navController)
                         }
                     }
                 }

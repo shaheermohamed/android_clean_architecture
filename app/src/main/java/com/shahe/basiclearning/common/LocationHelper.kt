@@ -2,11 +2,7 @@ package com.shahe.basiclearning.common
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
-import android.location.Location
-import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationServices
-import android.Manifest
 import android.location.Geocoder
 import java.io.IOException
 import java.util.Locale
