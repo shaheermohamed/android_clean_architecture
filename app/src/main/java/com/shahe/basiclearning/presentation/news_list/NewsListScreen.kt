@@ -7,12 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.shahe.basiclearning.common.AnimatedPreloader
 import com.shahe.basiclearning.domain.model.Article
 import com.shahe.basiclearning.presentation.components.BottomNavigationBar
 import com.shahe.basiclearning.presentation.components.TopAppBar
@@ -54,7 +55,8 @@ fun NewsListScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(padding),
+            contentAlignment = Alignment.Center
         ) {
             Column(
                 modifier = Modifier
@@ -91,7 +93,13 @@ fun NewsListScreen(
             }
 
             if (state.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    AnimatedPreloader(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .align(Alignment.Center)
+                    )
+                }
             }
         }
     }

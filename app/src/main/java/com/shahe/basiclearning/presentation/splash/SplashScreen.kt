@@ -55,7 +55,7 @@ fun SplashScreen(navController: NavController, viewModel: AuthViewModel = hiltVi
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_playstore ),
+                painter = painterResource(id = R.drawable.ic_launcher_playstore),
                 contentDescription = "Image from drawable",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxWidth()
@@ -63,4 +63,6 @@ fun SplashScreen(navController: NavController, viewModel: AuthViewModel = hiltVi
             Text("Clean Architecture", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         }
     }
+
+
 }

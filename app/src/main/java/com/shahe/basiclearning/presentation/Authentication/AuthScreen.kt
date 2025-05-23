@@ -3,15 +3,15 @@ package com.shahe.basiclearning.presentation.Authentication
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.shahe.basiclearning.common.AnimatedPreloader
 import com.shahe.basiclearning.domain.model.AuthResult
 import com.shahe.basiclearning.presentation.Screen
 
@@ -44,7 +45,9 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), navController: NavCon
     Scaffold(
         topBar = {
             Row(
-                modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).fillMaxWidth(),
+                modifier = Modifier
+                    .windowInsetsPadding(WindowInsets.statusBars)
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(text = "Welcome, Please Login")
@@ -90,7 +93,14 @@ fun AuthScreen(viewModel: AuthViewModel = hiltViewModel(), navController: NavCon
                 }
             }
             when (authResult) {
-                is AuthResult.Loading -> androidx.compose.material.CircularProgressIndicator()
+                is AuthResult.Loading -> Box(modifier = Modifier.fillMaxWidth()) {
+                    AnimatedPreloader(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+
                 is AuthResult.Error -> Text(authResult.message, color = Color.Red)
                 is AuthResult.Success -> {
                     val user = authResult.user

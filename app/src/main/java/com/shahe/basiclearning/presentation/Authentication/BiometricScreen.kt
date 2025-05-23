@@ -3,12 +3,14 @@ package com.shahe.basiclearning.presentation.Authentication
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import com.shahe.basiclearning.common.AnimatedPreloader
 import com.shahe.basiclearning.common.BiometricHelper
 import com.shahe.basiclearning.common.EncryptedPrefs
 import com.shahe.basiclearning.presentation.Screen
@@ -91,7 +94,15 @@ fun BiometricScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (isLoading == true) CircularProgressIndicator()
+        if (isLoading == true) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                AnimatedPreloader(
+                    modifier = Modifier
+                        .size(80.dp)
+                        .align(Alignment.Center)
+                )
+            }
+        }
         Text("Please authenticate using biometrics")
 
         authError?.let {

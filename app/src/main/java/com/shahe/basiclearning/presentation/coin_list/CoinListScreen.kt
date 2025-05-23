@@ -1,5 +1,6 @@
 package com.shahe.basiclearning.presentation.coin_list
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
@@ -21,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.shahe.basiclearning.common.AnimatedPreloader
 import com.shahe.basiclearning.presentation.Screen
 import com.shahe.basiclearning.presentation.advice.AdviceScreen
 import com.shahe.basiclearning.presentation.coin_list.components.CoinListItem
@@ -40,13 +43,14 @@ fun CoinListScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(padding),
         ) {
             Spacer(modifier = Modifier.height(5.dp))
             AdviceScreen()
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
 
                 LazyColumn {
@@ -75,7 +79,11 @@ fun CoinListScreen(
                     )
                 }
                 if (state.isLoading) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        AnimatedPreloader(modifier = Modifier
+                            .size(80.dp)
+                            .align(Alignment.Center))
+                    }
                 }
             }
         }

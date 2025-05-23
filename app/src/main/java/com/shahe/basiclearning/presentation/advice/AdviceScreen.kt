@@ -1,13 +1,15 @@
 package com.shahe.basiclearning.presentation.advice
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -23,13 +25,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.shahe.basiclearning.common.AnimatedPreloader
 
 @Composable
 fun AdviceScreen(viewModel: AdviceViewModel = hiltViewModel()) {
     val state = viewModel.state
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center
     ) {
         if (state?.error?.isNotBlank() == true) {
             Text(
@@ -41,7 +45,11 @@ fun AdviceScreen(viewModel: AdviceViewModel = hiltViewModel()) {
                     .padding(16.dp)
             )
         }
-        if (state.isLoading == true) CircularProgressIndicator()
+        if (state.isLoading == true) Box(modifier = Modifier.fillMaxWidth()) {
+            AnimatedPreloader(modifier = Modifier
+                .size(80.dp)
+                .align(Alignment.Center))
+        }
         state.let {
             if (it.advice?.advice?.isNotEmpty() == true) {
                 Card(

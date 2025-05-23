@@ -8,6 +8,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,9 +16,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.material.ExposedDropdownMenuDefaults
@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.shahe.basiclearning.common.AnimatedPreloader
 import com.shahe.basiclearning.common.LocationHelper
 import com.shahe.basiclearning.presentation.components.BottomNavigationBar
 import com.shahe.basiclearning.presentation.components.TopAppBar
@@ -124,7 +125,13 @@ fun WeatherScreen(
                         .padding(16.dp)
                 )
             }
-            if (state?.isLoading == true) CircularProgressIndicator()
+            if (state?.isLoading == true) Box(modifier = Modifier.fillMaxWidth()) {
+                AnimatedPreloader(
+                    modifier = Modifier
+                        .size(80.dp)
+                        .align(Alignment.Center)
+                )
+            }
             state?.let {
                 if (it.weather?.city?.isNotEmpty() == true && state.isLoading == false) {
                     Card(
@@ -224,6 +231,7 @@ fun CitySelector(
             .background(color = Color.White)
     ) {
         TextField(
+            readOnly = true,
             value = selectedText,
             onValueChange = {
                 onSelectedTextChange(it)

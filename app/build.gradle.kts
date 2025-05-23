@@ -123,4 +123,7 @@ dependencies {
 
     implementation ("androidx.security:security-crypto:1.1.0-alpha07")
 
+    implementation("com.airbnb.android:lottie-compose:4.0.0")
+
+
 }
